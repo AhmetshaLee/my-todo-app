@@ -1,3 +1,4 @@
+import { MOCK_TASKS } from "../constants/mockTasks"
 import AddTaskForm from "./AddTaskForm"
 import SearchTaskForm from "./SearchTaskForm"
 import TodoInfo from "./TodoInfo"
@@ -10,7 +11,7 @@ const Todo = () => {
       <AddTaskForm />
       <SearchTaskForm />
       <TodoInfo />
-      <TodoList />
+      <TodoList tasks={MOCK_TASKS} />
     </div>
   )
 }
