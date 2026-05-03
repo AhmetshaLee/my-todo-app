@@ -5,12 +5,15 @@ import TodoInfo from "./TodoInfo"
 import TodoList from "./TodoList"
 
 const Todo = () => {
+  const totalTasks = MOCK_TASKS.length
+  const doneTasks = MOCK_TASKS.filter(({ isDone }) => isDone).length
+
   return (
     <div className='todo'>
       <h1 className='todo__title'>To Do List</h1>
       <AddTaskForm />
       <SearchTaskForm />
-      <TodoInfo />
+      <TodoInfo total={totalTasks} done={doneTasks} />
       <TodoList tasks={MOCK_TASKS} />
     </div>
   )
