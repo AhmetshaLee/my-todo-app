@@ -1,8 +1,8 @@
 import TodoItem from "./TodoItem"
 
 const TodoList = (props) => {
-  const { tasks = [] } = props
-  const hasTasks = true
+  const { tasks = [], onDeleteTaskButtonClick, onTaskCompleteChange } = props
+  const hasTasks = tasks.length > 0
 
   if (!hasTasks) {
     return <div className='todo__empty-message'></div>
@@ -11,7 +11,13 @@ const TodoList = (props) => {
   return (
     <ul className='todo__list'>
       {tasks.map((task) => (
-        <TodoItem className='todo__item' key={task.id} {...task} />
+        <TodoItem
+          className='todo__item'
+          key={task.id}
+          onDeleteTaskButtonClick={onDeleteTaskButtonClick}
+          onTaskCompleteChange={onTaskCompleteChange}
+          {...task}
+        />
       ))}
     </ul>
   )
