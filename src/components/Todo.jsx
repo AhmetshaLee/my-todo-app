@@ -13,11 +13,15 @@ const Todo = () => {
   const doneTasks = tasks.filter((task) => task.isDone).length
 
   const deleteAllTasks = () => {
-    console.log("Удалить все")
+    const isConfirmed = confirm("Вы точно хотите удалить все задачи?")
+
+    if (isConfirmed) {
+      setTasks([])
+    }
   }
 
   const deleteTask = (taskId) => {
-    console.log("Удалить", taskId)
+    setTasks(tasks.filter((task) => task.id !== taskId))
   }
 
   const toggleTaskComplete = (taskId, isDone) => {
