@@ -2,7 +2,7 @@ import Button from "./ui/Button"
 import Field from "./ui/Field"
 
 const AddTaskForm = (props) => {
-  const { addTask } = props
+  const { addTask, newTaskTitle, setNewTaskTitle } = props
 
   const onSubmit = (event) => {
     event.preventDefault()
@@ -10,7 +10,13 @@ const AddTaskForm = (props) => {
   }
   return (
     <form className='todo__form' onSubmit={onSubmit}>
-      <Field className='todo__field' label='New task' id='new-task' />
+      <Field
+        className='todo__field'
+        label='New task'
+        id='new-task'
+        value={newTaskTitle}
+        onInput={(event) => setNewTaskTitle(event.target.value)}
+      />
       <Button type='submit'>Add</Button>
     </form>
   )

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { MOCK_TASKS } from "../constants/mockTasks"
 import AddTaskForm from "./AddTaskForm"
 import SearchTaskForm from "./SearchTaskForm"
@@ -5,33 +6,49 @@ import TodoInfo from "./TodoInfo"
 import TodoList from "./TodoList"
 
 const Todo = () => {
-  const totalTasks = MOCK_TASKS.length
-  const doneTasks = MOCK_TASKS.filter(({ isDone }) => isDone).length
+  const [tasks, setTasks] = useState(MOCK_TASKS)
+  const [newTaskTitle, setNewTaskTitle] = useState("")
+
+  const totalTasks = tasks.length
+  const doneTasks = tasks.filter((task) => task.isDone).length
 
   const deleteAllTasks = () => {
-    console.log("delete all")
+    console.log("Удалить все")
   }
 
   const deleteTask = (taskId) => {
-    console.log(taskId)
+    console.log("Удалить", taskId)
   }
 
   const toggleTaskComplete = (taskId, isDone) => {
-    console.log(taskId, isDone)
+    console.log("Изменить статус", taskId, isDone)
   }
 
   const filterTasks = (query) => {
-    console.log(query)
+    console.log("Поиск", query)
   }
 
   const addTask = () => {
-    console.log("add")
+    if (newTaskTitle.trim().length > 0) {
+      const newTask = {
+        id: crypto?.randomUUID() ?? Date.now().toString(),
+        title: newTaskTitle,
+        isDone: false,
+      }
+
+      setTasks([...tasks, newTask])
+      setNewTaskTitle("")
+    }
   }
 
   return (
     <div className='todo'>
       <h1 className='todo__title'>To Do List</h1>
-      <AddTaskForm addTask={addTask} />
+      <AddTaskForm
+        addTask={addTask}
+        newTaskTitle={newTaskTitle}
+        setNewTaskTitle={setNewTaskTitle}
+      />
       <SearchTaskForm onSearchInput={filterTasks} />
       <TodoInfo
         total={totalTasks}
@@ -39,7 +56,7 @@ const Todo = () => {
         onDeleteAllButtonClick={deleteAllTasks}
       />
       <TodoList
-        tasks={MOCK_TASKS}
+        tasks={tasks}
         onDeleteTaskButtonClick={deleteTask}
         onTaskCompleteChange={toggleTaskComplete}
       />
