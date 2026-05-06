@@ -24,8 +24,16 @@ const Todo = () => {
     setTasks(tasks.filter((task) => task.id !== taskId))
   }
 
-  const toggleTaskComplete = (taskId, isDone) => {
-    console.log("Изменить статус", taskId, isDone)
+  const toggleTaskComplete = (taskId) => {
+    setTasks(
+      tasks.map((task) => {
+        if (task.id === taskId) {
+          return { ...task, isDone: !task.isDone }
+        }
+
+        return task
+      }),
+    )
   }
 
   const filterTasks = (query) => {
