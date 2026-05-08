@@ -4,9 +4,13 @@ import AddTaskForm from "./AddTaskForm"
 import SearchTaskForm from "./SearchTaskForm"
 import TodoInfo from "./TodoInfo"
 import TodoList from "./TodoList"
+import { useEffect } from "react"
 
 const Todo = () => {
-  const [tasks, setTasks] = useState(MOCK_TASKS)
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks")
+    return savedTasks ? JSON.parse(savedTasks) : MOCK_TASKS
+  })
   const [newTaskTitle, setNewTaskTitle] = useState("")
 
   const totalTasks = tasks.length
@@ -52,6 +56,10 @@ const Todo = () => {
       setNewTaskTitle("")
     }
   }
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+  }, [tasks])
 
   return (
     <div className='todo'>
