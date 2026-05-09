@@ -16,10 +16,19 @@ const Todo = () => {
 
   const newTaskInputRef = useRef(null)
   const firstIncompleteTaskRef = useRef(null)
-  const firstIncompleteTaskId = tasks.find((task) => !task.isDone)?.id
 
   const totalTasks = tasks.length
   const doneTasks = tasks.filter((task) => task.isDone).length
+
+  const clearSearchQuery = searchQuery.trim().toLowerCase()
+  const visibleTasks =
+    clearSearchQuery.length > 0
+      ? tasks.filter((task) =>
+          task.title.toLowerCase().includes(clearSearchQuery),
+        )
+      : tasks
+
+  const firstIncompleteTaskId = visibleTasks.find((task) => !task.isDone)?.id
 
   const deleteAllTasks = () => {
     const isConfirmed = confirm("Вы точно хотите удалить все задачи?")
@@ -68,14 +77,6 @@ const Todo = () => {
     newTaskInputRef.current.focus()
   }, [])
 
-  const clearSearchQuery = searchQuery.trim().toLowerCase()
-  const filteredTasks =
-    clearSearchQuery.length > 0
-      ? tasks.filter(({ title }) =>
-          title.toLowerCase().includes(clearSearchQuery),
-        )
-      : null
-
   return (
     <div className='todo'>
       <h1 className='todo__title'>To Do List</h1>
@@ -102,8 +103,7 @@ const Todo = () => {
         Показать невыполненные задачи
       </Button>
       <TodoList
-        tasks={tasks}
-        filteredTasks={filteredTasks}
+        tasks={visibleTasks}
         firstIncompleteTaskRef={firstIncompleteTaskRef}
         firstIncompleteTaskId={firstIncompleteTaskId}
         onDeleteTaskButtonClick={deleteTask}

@@ -3,27 +3,25 @@ import TodoItem from "./TodoItem"
 const TodoList = (props) => {
   const {
     tasks = [],
-    filteredTasks,
     firstIncompleteTaskRef,
     firstIncompleteTaskId,
     onDeleteTaskButtonClick,
     onTaskCompleteChange,
   } = props
 
-  const hasTasks = tasks.length > 0
-  const isEmptyFilteredTasks = filteredTasks?.length === 0
-
-  if (!hasTasks) {
-    return <div className='todo__empty-message'>Задач пока нет</div>
-  }
-
-  if (hasTasks && isEmptyFilteredTasks) {
-    return <div className='todo__empty-message'>Задачи не найдены</div>
+  if (!tasks.length) {
+    return (
+      <div className='todo__empty-message'>
+        {tasks.length === 0 && !firstIncompleteTaskId
+          ? "Задачи не найдены"
+          : "Задач пока нет"}
+      </div>
+    )
   }
 
   return (
     <ul className='todo__list'>
-      {(filteredTasks ?? tasks).map((task) => (
+      {tasks.map((task) => (
         <TodoItem
           ref={
             task.id === firstIncompleteTaskId ? firstIncompleteTaskRef : null
