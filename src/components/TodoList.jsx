@@ -3,6 +3,7 @@ import TodoItem from "./TodoItem"
 const TodoList = (props) => {
   const {
     tasks = [],
+    isFiltered,
     firstIncompleteTaskRef,
     firstIncompleteTaskId,
     onDeleteTaskButtonClick,
@@ -12,9 +13,7 @@ const TodoList = (props) => {
   if (!tasks.length) {
     return (
       <div className='todo__empty-message'>
-        {tasks.length === 0 && !firstIncompleteTaskId
-          ? "Задачи не найдены"
-          : "Задач пока нет"}
+        {isFiltered ? "Задачи не найдены" : "Задач пока нет"}
       </div>
     )
   }

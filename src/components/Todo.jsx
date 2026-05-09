@@ -28,6 +28,7 @@ const Todo = () => {
         )
       : tasks
 
+  const isFiltered = clearSearchQuery.length > 0
   const firstIncompleteTaskId = visibleTasks.find((task) => !task.isDone)?.id
 
   const deleteAllTasks = () => {
@@ -104,6 +105,7 @@ const Todo = () => {
       </Button>
       <TodoList
         tasks={visibleTasks}
+        isFiltered={isFiltered} 
         firstIncompleteTaskRef={firstIncompleteTaskRef}
         firstIncompleteTaskId={firstIncompleteTaskId}
         onDeleteTaskButtonClick={deleteTask}
