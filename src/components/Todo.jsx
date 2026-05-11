@@ -5,6 +5,7 @@ import SearchTaskForm from "./SearchTaskForm"
 import TodoInfo from "./TodoInfo"
 import TodoList from "./TodoList"
 import Button from "./ui/Button"
+import { useMemo } from "react"
 
 const Todo = () => {
   const [tasks, setTasks] = useState(() => {
@@ -20,15 +21,17 @@ const Todo = () => {
   const totalTasks = tasks.length
   const doneTasks = tasks.filter((task) => task.isDone).length
 
-  const clearSearchQuery = searchQuery.trim().toLowerCase()
-  const visibleTasks =
-    clearSearchQuery.length > 0
+  const visibleTasks = useMemo(() => {
+    const clearSearchQuery = searchQuery.trim().toLowerCase()
+
+    return clearSearchQuery.length > 0
       ? tasks.filter((task) =>
           task.title.toLowerCase().includes(clearSearchQuery),
         )
       : tasks
+  }, [tasks, searchQuery])
 
-  const isFiltered = clearSearchQuery.length > 0
+  const isFiltered = searchQuery.trim().length > 0
   const firstIncompleteTaskId = visibleTasks.find((task) => !task.isDone)?.id
 
   const deleteAllTasks = useCallback(() => {
@@ -39,21 +42,27 @@ const Todo = () => {
     }
   }, [])
 
-  const deleteTask = (taskId) => {
-    setTasks(tasks.filter((task) => task.id !== taskId))
-  }
+  const deleteTask = useCallback(
+    (taskId) => {
+      setTasks(tasks.filter((task) => task.id !== taskId))
+    },
+    [tasks],
+  )
 
-  const toggleTaskComplete = (taskId) => {
-    setTasks(
-      tasks.map((task) => {
-        if (task.id === taskId) {
-          return { ...task, isDone: !task.isDone }
-        }
+  const toggleTaskComplete = useCallback(
+    (taskId) => {
+      setTasks(
+        tasks.map((task) => {
+          if (task.id === taskId) {
+            return { ...task, isDone: !task.isDone }
+          }
 
-        return task
-      }),
-    )
-  }
+          return task
+        }),
+      )
+    },
+    [tasks],
+  )
 
   const addTask = () => {
     if (newTaskTitle.trim().length > 0) {
