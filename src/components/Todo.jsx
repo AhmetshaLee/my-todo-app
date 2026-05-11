@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { MOCK_TASKS } from "../constants/mockTasks"
 import AddTaskForm from "./AddTaskForm"
 import SearchTaskForm from "./SearchTaskForm"
 import TodoInfo from "./TodoInfo"
 import TodoList from "./TodoList"
 import Button from "./ui/Button"
-import { useMemo } from "react"
 
 const Todo = () => {
   const [tasks, setTasks] = useState(() => {
@@ -19,7 +18,9 @@ const Todo = () => {
   const firstIncompleteTaskRef = useRef(null)
 
   const totalTasks = tasks.length
-  const doneTasks = tasks.filter((task) => task.isDone).length
+  const doneTasks = useMemo(() => {
+    return tasks.filter((task) => task.isDone).length
+  }, [tasks])
 
   const visibleTasks = useMemo(() => {
     const clearSearchQuery = searchQuery.trim().toLowerCase()
@@ -64,7 +65,7 @@ const Todo = () => {
     [tasks],
   )
 
-  const addTask = () => {
+  const addTask = useCallback(() => {
     if (newTaskTitle.trim().length > 0) {
       const newTask = {
         id: crypto?.randomUUID() ?? Date.now().toString(),
@@ -72,12 +73,12 @@ const Todo = () => {
         isDone: false,
       }
 
-      setTasks([...tasks, newTask])
+      setTasks((prevTasks) => [...prevTasks, newTask])
       setNewTaskTitle("")
       setSearchQuery("")
       newTaskInputRef.current.focus()
     }
-  }
+  }, [newTaskTitle])
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks))
