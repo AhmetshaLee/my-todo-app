@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { MOCK_TASKS } from "../constants/mockTasks"
 import AddTaskForm from "./AddTaskForm"
 import SearchTaskForm from "./SearchTaskForm"
@@ -31,13 +31,13 @@ const Todo = () => {
   const isFiltered = clearSearchQuery.length > 0
   const firstIncompleteTaskId = visibleTasks.find((task) => !task.isDone)?.id
 
-  const deleteAllTasks = () => {
+  const deleteAllTasks = useCallback(() => {
     const isConfirmed = confirm("Вы точно хотите удалить все задачи?")
 
     if (isConfirmed) {
       setTasks([])
     }
-  }
+  }, [])
 
   const deleteTask = (taskId) => {
     setTasks(tasks.filter((task) => task.id !== taskId))
@@ -105,7 +105,7 @@ const Todo = () => {
       </Button>
       <TodoList
         tasks={visibleTasks}
-        isFiltered={isFiltered} 
+        isFiltered={isFiltered}
         firstIncompleteTaskRef={firstIncompleteTaskRef}
         firstIncompleteTaskId={firstIncompleteTaskId}
         onDeleteTaskButtonClick={deleteTask}
