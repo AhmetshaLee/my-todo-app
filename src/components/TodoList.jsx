@@ -1,17 +1,11 @@
-import { memo } from "react"
+import { memo, useContext } from "react"
 import TodoItem from "./TodoItem"
+import { TasksContext } from "../context/TasksContext"
 
-const TodoList = (props) => {
-  const {
-    tasks = [],
-    isFiltered,
-    firstIncompleteTaskRef,
-    firstIncompleteTaskId,
-    onDeleteTaskButtonClick,
-    onTaskCompleteChange,
-  } = props
+const TodoList = () => {
+  const { visibleTasks, isFiltered } = useContext(TasksContext)
 
-  if (!tasks.length) {
+  if (!visibleTasks.length) {
     return (
       <div className='todo__empty-message'>
         {isFiltered ? "Задачи не найдены" : "Задач пока нет"}
@@ -21,17 +15,8 @@ const TodoList = (props) => {
 
   return (
     <ul className='todo__list'>
-      {tasks.map((task) => (
-        <TodoItem
-          ref={
-            task.id === firstIncompleteTaskId ? firstIncompleteTaskRef : null
-          }
-          className='todo__item'
-          key={task.id}
-          onDeleteTaskButtonClick={onDeleteTaskButtonClick}
-          onTaskCompleteChange={onTaskCompleteChange}
-          {...task}
-        />
+      {visibleTasks.map((task) => (
+        <TodoItem className='todo__item' key={task.id} {...task} />
       ))}
     </ul>
   )

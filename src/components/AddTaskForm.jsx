@@ -8,6 +8,7 @@ const AddTaskForm = (props) => {
     event.preventDefault()
     addTask()
   }
+
   return (
     <form className='todo__form' onSubmit={onSubmit}>
       <Field

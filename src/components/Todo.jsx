@@ -5,6 +5,7 @@ import SearchTaskForm from "./SearchTaskForm"
 import TodoInfo from "./TodoInfo"
 import TodoList from "./TodoList"
 import Button from "./ui/Button"
+import { TasksContext } from "../context/TasksContext"
 
 const Todo = () => {
   const [tasks, setTasks] = useState(() => {
@@ -16,11 +17,6 @@ const Todo = () => {
 
   const newTaskInputRef = useRef(null)
   const firstIncompleteTaskRef = useRef(null)
-
-  const totalTasks = tasks.length
-  const doneTasks = useMemo(() => {
-    return tasks.filter((task) => task.isDone).length
-  }, [tasks])
 
   const visibleTasks = useMemo(() => {
     const clearSearchQuery = searchQuery.trim().toLowerCase()
@@ -89,39 +85,43 @@ const Todo = () => {
   }, [])
 
   return (
-    <div className='todo'>
-      <h1 className='todo__title'>To Do List</h1>
-      <AddTaskForm
-        addTask={addTask}
-        newTaskTitle={newTaskTitle}
-        setNewTaskTitle={setNewTaskTitle}
-        newTaskInputRef={newTaskInputRef}
-      />
-      <SearchTaskForm
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <TodoInfo
-        total={totalTasks}
-        done={doneTasks}
-        onDeleteAllButtonClick={deleteAllTasks}
-      />
-      <Button
-        onClick={() => {
-          firstIncompleteTaskRef.current?.scrollIntoView({ behavior: "smooth" })
-        }}
-      >
-        Показать невыполненные задачи
-      </Button>
-      <TodoList
-        tasks={visibleTasks}
-        isFiltered={isFiltered}
-        firstIncompleteTaskRef={firstIncompleteTaskRef}
-        firstIncompleteTaskId={firstIncompleteTaskId}
-        onDeleteTaskButtonClick={deleteTask}
-        onTaskCompleteChange={toggleTaskComplete}
-      />
-    </div>
+    <TasksContext.Provider
+      value={{
+        tasks,
+        visibleTasks,
+        isFiltered,
+        firstIncompleteTaskId,
+        firstIncompleteTaskRef,
+        deleteAllTasks,
+        deleteTask,
+        toggleTaskComplete,
+      }}
+    >
+      <div className='todo'>
+        <h1 className='todo__title'>To Do List</h1>
+        <AddTaskForm
+          addTask={addTask}
+          newTaskTitle={newTaskTitle}
+          setNewTaskTitle={setNewTaskTitle}
+          newTaskInputRef={newTaskInputRef}
+        />
+        <SearchTaskForm
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+        <TodoInfo />
+        <Button
+          onClick={() => {
+            firstIncompleteTaskRef.current?.scrollIntoView({
+              behavior: "smooth",
+            })
+          }}
+        >
+          Показать невыполненные задачи
+        </Button>
+        <TodoList />
+      </div>
+    </TasksContext.Provider>
   )
 }
 
