@@ -1,6 +1,6 @@
 import { memo, useContext } from "react"
 import TodoItem from "./TodoItem"
-import { TasksContext } from "../context/TasksProvider"
+import { TasksContext } from "../context/TasksContext"
 
 const TodoList = () => {
   const { visibleTasks, isFiltered } = useContext(TasksContext)

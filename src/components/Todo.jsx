@@ -4,7 +4,7 @@ import SearchTaskForm from "./SearchTaskForm"
 import TodoInfo from "./TodoInfo"
 import TodoList from "./TodoList"
 import Button from "./ui/Button"
-import { TasksContext } from "../context/TasksProvider"
+import { TasksContext } from "../context/TasksContext"
 
 const Todo = () => {
   const { firstIncompleteTaskRef } = useContext(TasksContext)

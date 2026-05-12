@@ -1,5 +1,5 @@
 import { memo, useMemo, useContext } from "react"
-import { TasksContext } from "../context/TasksProvider"
+import { TasksContext } from "../context/TasksContext"
 
 const TodoInfo = () => {
   const { tasks, deleteAllTasks } = useContext(TasksContext)
