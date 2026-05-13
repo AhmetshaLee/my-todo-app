@@ -10,7 +10,6 @@ const useTasks = () => {
   const [searchQuery, setSearchQuery] = useState("")
 
   const newTaskInputRef = useRef(null)
-  const firstIncompleteTaskRef = useRef(null)
 
   const visibleTasks = useMemo(() => {
     const clearSearchQuery = searchQuery.trim().toLowerCase()
@@ -23,7 +22,6 @@ const useTasks = () => {
   }, [tasks, searchQuery])
 
   const isFiltered = searchQuery.trim().length > 0
-  const firstIncompleteTaskId = visibleTasks.find((task) => !task.isDone)?.id
 
   const deleteAllTasks = useCallback(() => {
     const isConfirmed = confirm("Вы точно хотите удалить все задачи?")
@@ -82,8 +80,6 @@ const useTasks = () => {
     tasks,
     visibleTasks,
     isFiltered,
-    firstIncompleteTaskId,
-    firstIncompleteTaskRef,
     newTaskTitle,
     newTaskInputRef,
     searchQuery,

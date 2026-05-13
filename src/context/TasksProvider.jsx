@@ -1,3 +1,4 @@
+import useIncompleteTaskScroll from "../hooks/useIncompleteTaskScroll"
 import useTasks from "../hooks/useTasks"
 import { TasksContext } from "./TasksContext"
 
@@ -8,8 +9,6 @@ export const TasksProvider = (props) => {
     tasks,
     visibleTasks,
     isFiltered,
-    firstIncompleteTaskId,
-    firstIncompleteTaskRef,
     newTaskTitle,
     newTaskInputRef,
     searchQuery,
@@ -20,6 +19,9 @@ export const TasksProvider = (props) => {
     setNewTaskTitle,
     setSearchQuery,
   } = useTasks()
+
+  const { firstIncompleteTaskId, firstIncompleteTaskRef } =
+    useIncompleteTaskScroll(visibleTasks)
 
   return (
     <TasksContext.Provider
