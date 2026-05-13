@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { MOCK_TASKS } from "../constants/mockTasks"
+import useTasksLocalStorage from "./useTasksLocalStorage"
 
 const useTasks = () => {
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem("tasks")
-    return savedTasks ? JSON.parse(savedTasks) : MOCK_TASKS
-  })
+  const { saveTasks, savedTasks } = useTasksLocalStorage()
+
+  const [tasks, setTasks] = useState(savedTasks ?? MOCK_TASKS)
   const [newTaskTitle, setNewTaskTitle] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -69,9 +69,9 @@ const useTasks = () => {
   }, [newTaskTitle])
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks))
+    saveTasks(tasks)
   }, [tasks])
-
+  
   useEffect(() => {
     newTaskInputRef.current.focus()
   }, [])
