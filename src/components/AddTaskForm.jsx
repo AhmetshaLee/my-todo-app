@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, useEffect } from "react"
+import { useContext, useState, useRef } from "react"
 import Button from "./ui/Button"
 import Field from "./ui/Field"
 import { TasksContext } from "../context/TasksContext"
@@ -21,6 +21,7 @@ const AddTaskForm = () => {
       addTask(clearNewTaskTitle)
       setNewTaskTitle("")
       setError("")
+      newTaskInputRef.current.focus()
     }
   }
 
@@ -33,10 +34,6 @@ const AddTaskForm = () => {
     setError(hasOnlySpaces ? "Поле не может быть пустым" : "")
   }
 
-  useEffect(() => {
-    newTaskInputRef.current.focus()
-  }, [])
-
   return (
     <form className='todo__form' onSubmit={onSubmit}>
       <Field
@@ -47,6 +44,7 @@ const AddTaskForm = () => {
         error={error}
         value={newTaskTitle}
         onInput={onInput}
+        autoFocus
       />
       <Button type='submit' isDisabled={isNewTaskTitleEmpty}>
         Add
