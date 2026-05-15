@@ -1,11 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
 import { MOCK_TASKS } from "../constants/mockTasks"
-import useTasksLocalStorage from "./useTasksLocalStorage"
+import { getSavedTasks, saveTasks } from "../utils/storage"
 
 const useTasks = () => {
-  const { saveTasks, savedTasks } = useTasksLocalStorage()
-
-  const [tasks, setTasks] = useState(savedTasks ?? MOCK_TASKS)
+  const [tasks, setTasks] = useState(() => getSavedTasks() ?? MOCK_TASKS)
   const [searchQuery, setSearchQuery] = useState("")
 
   const visibleTasks = useMemo(() => {
