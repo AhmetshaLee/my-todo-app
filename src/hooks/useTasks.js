@@ -28,27 +28,21 @@ const useTasks = () => {
     }
   }, [])
 
-  const deleteTask = useCallback(
-    (taskId) => {
-      setTasks(tasks.filter((task) => task.id !== taskId))
-    },
-    [tasks],
-  )
+  const deleteTask = useCallback((taskId) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
+  }, [])
 
-  const toggleTaskComplete = useCallback(
-    (taskId) => {
-      setTasks(
-        tasks.map((task) => {
-          if (task.id === taskId) {
-            return { ...task, isDone: !task.isDone }
-          }
+  const toggleTaskComplete = useCallback((taskId) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => {
+        if (task.id === taskId) {
+          return { ...task, isDone: !task.isDone }
+        }
 
-          return task
-        }),
-      )
-    },
-    [tasks],
-  )
+        return task
+      }),
+    )
+  }, [])
 
   const addTask = useCallback((title) => {
     const newTask = {

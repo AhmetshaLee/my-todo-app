@@ -3,7 +3,8 @@ import TodoItem from "./TodoItem"
 import { TasksContext } from "../context/TasksContext"
 
 const TodoList = () => {
-  const { visibleTasks, isFiltered } = useContext(TasksContext)
+  const { visibleTasks, isFiltered, deleteTask, toggleTaskComplete } =
+    useContext(TasksContext)
 
   if (!visibleTasks.length) {
     return (
@@ -16,7 +17,13 @@ const TodoList = () => {
   return (
     <ul className='todo__list'>
       {visibleTasks.map((task) => (
-        <TodoItem className='todo__item' key={task.id} {...task} />
+        <TodoItem
+          className='todo__item'
+          key={task.id}
+          task={task}
+          onDelete={deleteTask}
+          onToggle={toggleTaskComplete}
+        />
       ))}
     </ul>
   )
