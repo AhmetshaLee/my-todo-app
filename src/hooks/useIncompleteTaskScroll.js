@@ -1,8 +1,10 @@
-import { useRef } from "react"
+import { useRef, useMemo } from "react"
 
 const useIncompleteTaskScroll = (tasks) => {
   const firstIncompleteTaskRef = useRef(null)
-  const firstIncompleteTaskId = tasks.find((task) => !task.isDone)?.id
+  const firstIncompleteTaskId = useMemo(() => {
+    return tasks.find((task) => !task.isDone)?.id
+  }, [tasks])
 
   return {
     firstIncompleteTaskId,

@@ -1,11 +1,11 @@
 import { memo } from "react"
 
 const TodoItem = (props) => {
-  const { className = "", task, onDelete, onToggle } = props
+  const { className = "", task, onDelete, onToggle, ref } = props
   const { id, title, isDone } = task
 
   return (
-    <li className={`todo-item ${className}`}>
+    <li className={`todo-item ${className}`} ref={ref}>
       <input
         className='todo-item__checkbox'
         id={id}

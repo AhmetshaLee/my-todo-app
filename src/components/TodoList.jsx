@@ -3,8 +3,14 @@ import TodoItem from "./TodoItem"
 import { TasksContext } from "../context/TasksContext"
 
 const TodoList = () => {
-  const { visibleTasks, isFiltered, deleteTask, toggleTaskComplete } =
-    useContext(TasksContext)
+  const {
+    visibleTasks,
+    isFiltered,
+    deleteTask,
+    toggleTaskComplete,
+    firstIncompleteTaskId,
+    firstIncompleteTaskRef,
+  } = useContext(TasksContext)
 
   if (!visibleTasks.length) {
     return (
@@ -23,6 +29,9 @@ const TodoList = () => {
           task={task}
           onDelete={deleteTask}
           onToggle={toggleTaskComplete}
+          ref={
+            task.id === firstIncompleteTaskId ? firstIncompleteTaskRef : null
+          }
         />
       ))}
     </ul>
