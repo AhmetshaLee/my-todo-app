@@ -9,14 +9,11 @@ export const TasksProvider = (props) => {
     tasks,
     visibleTasks,
     isFiltered,
-    newTaskTitle,
-    newTaskInputRef,
     searchQuery,
     deleteAllTasks,
     deleteTask,
     toggleTaskComplete,
     addTask,
-    setNewTaskTitle,
     setSearchQuery,
   } = useTasks()
 
@@ -31,14 +28,11 @@ export const TasksProvider = (props) => {
         isFiltered,
         firstIncompleteTaskId,
         firstIncompleteTaskRef,
-        newTaskTitle,
-        newTaskInputRef,
         searchQuery,
         deleteAllTasks,
         deleteTask,
         toggleTaskComplete,
         addTask,
-        setNewTaskTitle,
         setSearchQuery,
       }}
     >

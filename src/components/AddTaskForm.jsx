@@ -1,13 +1,15 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useRef, useEffect } from "react"
 import Button from "./ui/Button"
 import Field from "./ui/Field"
 import { TasksContext } from "../context/TasksContext"
 
 const AddTaskForm = () => {
-  const { addTask, newTaskTitle, setNewTaskTitle, newTaskInputRef } =
-    useContext(TasksContext)
+  const { addTask } = useContext(TasksContext)
 
+  const [newTaskTitle, setNewTaskTitle] = useState("")
   const [error, setError] = useState("")
+
+  const newTaskInputRef = useRef(null)
 
   const clearNewTaskTitle = newTaskTitle.trim()
   const isNewTaskTitleEmpty = clearNewTaskTitle.length === 0
@@ -17,6 +19,8 @@ const AddTaskForm = () => {
 
     if (!isNewTaskTitleEmpty) {
       addTask(clearNewTaskTitle)
+      setNewTaskTitle("")
+      setError("")
     }
   }
 
@@ -28,6 +32,10 @@ const AddTaskForm = () => {
     setNewTaskTitle(value)
     setError(hasOnlySpaces ? "Поле не может быть пустым" : "")
   }
+
+  useEffect(() => {
+    newTaskInputRef.current.focus()
+  }, [])
 
   return (
     <form className='todo__form' onSubmit={onSubmit}>

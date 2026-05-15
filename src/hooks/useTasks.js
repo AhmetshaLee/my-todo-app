@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import { MOCK_TASKS } from "../constants/mockTasks"
 import useTasksLocalStorage from "./useTasksLocalStorage"
 
@@ -6,10 +6,7 @@ const useTasks = () => {
   const { saveTasks, savedTasks } = useTasksLocalStorage()
 
   const [tasks, setTasks] = useState(savedTasks ?? MOCK_TASKS)
-  const [newTaskTitle, setNewTaskTitle] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
-
-  const newTaskInputRef = useRef(null)
 
   const visibleTasks = useMemo(() => {
     const clearSearchQuery = searchQuery.trim().toLowerCase()
@@ -61,31 +58,22 @@ const useTasks = () => {
     }
 
     setTasks((prevTasks) => [...prevTasks, newTask])
-    setNewTaskTitle("")
     setSearchQuery("")
-    newTaskInputRef.current.focus()
   }, [])
 
   useEffect(() => {
     saveTasks(tasks)
   }, [tasks])
 
-  useEffect(() => {
-    newTaskInputRef.current.focus()
-  }, [])
-
   return {
     tasks,
     visibleTasks,
     isFiltered,
-    newTaskTitle,
-    newTaskInputRef,
     searchQuery,
     deleteAllTasks,
     deleteTask,
     toggleTaskComplete,
     addTask,
-    setNewTaskTitle,
     setSearchQuery,
   }
 }
