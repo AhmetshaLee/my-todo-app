@@ -1,4 +1,4 @@
-import { memo, useMemo, useContext } from "react"
+import { useMemo, useContext } from "react"
 import { TasksContext } from "../context/TasksContext"
 
 const TodoInfo = () => {
@@ -29,4 +29,4 @@ const TodoInfo = () => {
   )
 }
 
-export default memo(TodoInfo)
+export default TodoInfo
