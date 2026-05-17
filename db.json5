@@ -1,0 +1,14 @@
+{
+    tasks: [
+        {
+            id: 'task-1',
+            title: 'Подключить поиск по списку задач',
+            isDone: false
+        },
+        {
+            id: 'task-2',
+            title: 'Сохранять задачи в localStorage',
+            isDone: false
+        },
+    ]
+}
