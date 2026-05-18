@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
+import tasksAPI from "../api/tasksApi"
 
 const useTasks = () => {
   const [tasks, setTasks] = useState([])
@@ -20,32 +21,19 @@ const useTasks = () => {
     const isConfirmed = confirm("Вы точно хотите удалить все задачи?")
 
     if (isConfirmed) {
-      Promise.all(
-        tasks.map((task) => {
-          return fetch(`http://localhost:3001/tasks/${task.id}`, {
-            method: "DELETE",
-          })
-        }),
-      ).then(() => setTasks([]))
+      const taskIds = tasks.map((task) => task.id)
+      tasksAPI.deleteAll(taskIds).then(() => setTasks([]))
     }
   }, [tasks])
 
   const deleteTask = useCallback((taskId) => {
-    fetch(`http://localhost:3001/tasks/${taskId}`, {
-      method: "DELETE",
-    }).then(() => {
+    tasksAPI.delete(taskId).then(() => {
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
     })
   }, [])
 
   const toggleTaskComplete = useCallback((taskId, isDone) => {
-    fetch(`http://localhost:3001/tasks/${taskId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ isDone }),
-    }).then(() => {
+    tasksAPI.toggleComplete(taskId, isDone).then(() => {
       setTasks((prevTasks) =>
         prevTasks.map((task) => {
           if (task.id === taskId) {
@@ -64,24 +52,14 @@ const useTasks = () => {
       isDone: false,
     }
 
-    fetch("http://localhost:3001/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTask),
+    tasksAPI.add(newTask).then((addedTask) => {
+      setTasks((prevTasks) => [...prevTasks, addedTask])
+      setSearchQuery("")
     })
-      .then((response) => response.json())
-      .then((addedTask) => {
-        setTasks((prevTasks) => [...prevTasks, addedTask])
-        setSearchQuery("")
-      })
   }, [])
 
   useEffect(() => {
-    fetch("http://localhost:3001/tasks")
-      .then((response) => response.json())
-      .then(setTasks)
+    tasksAPI.getAll().then(setTasks)
   }, [])
 
   return {
