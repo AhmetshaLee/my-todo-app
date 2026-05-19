@@ -1,4 +1,5 @@
 import { memo } from "react"
+import RouterLink from "../router/RouterLink"
 
 const TodoItem = (props) => {
   const { className = "", task, onDelete, onToggle, ref } = props
@@ -13,9 +14,12 @@ const TodoItem = (props) => {
         checked={isDone}
         onChange={(event) => onToggle(id, event.target.checked)}
       />
-      <label className='todo-item__label' htmlFor={id}>
+      <label className='todo-item__label visually-hidden' htmlFor={id}>
         {title}
       </label>
+      <RouterLink to={`/tasks/${id}`} aria-label='Task detail page'>
+        {title}
+      </RouterLink>
       <button
         className='todo-item__delete-button'
         aria-label='Delete'
