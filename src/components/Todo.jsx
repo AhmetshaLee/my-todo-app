@@ -3,7 +3,7 @@ import AddTaskForm from "./AddTaskForm"
 import SearchTaskForm from "./SearchTaskForm"
 import TodoInfo from "./TodoInfo"
 import TodoList from "./TodoList"
-import Button from "./ui/Button"
+import Button from "./ui/Button/Button"
 import { TasksContext } from "../context/TasksContext"
 
 const Todo = () => {
