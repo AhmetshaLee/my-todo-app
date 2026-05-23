@@ -1,6 +1,6 @@
 import { useMemo } from "react"
-import useIncompleteTaskScroll from "../hooks/useIncompleteTaskScroll"
-import useTasks from "../hooks/useTasks"
+import useIncompleteTaskScroll from "./useIncompleteTaskScroll"
+import useTasks from "./useTasks"
 import { TasksContext } from "./TasksContext"
 
 export const TasksProvider = (props) => {
