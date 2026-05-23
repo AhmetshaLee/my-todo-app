@@ -1,4 +1,4 @@
-import Todo from "../../components/Todo/Todo"
+import Todo from "../../widgets/Todo"
 import { TasksProvider } from "../../context/TasksProvider"
 
 const TasksPage = () => {
