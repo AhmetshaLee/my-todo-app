@@ -1,5 +1,5 @@
-import Todo from "../../widgets/Todo"
-import { TasksProvider } from "../../entities/todo"
+import Todo from "@/widgets/Todo"
+import { TasksProvider } from "@/entities/todo"
 
 const TasksPage = () => {
   return (
