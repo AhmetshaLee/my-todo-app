@@ -1,6 +1,6 @@
 import { useContext, useState, useRef } from "react"
-import Button from "../../components/ui/Button/Button"
-import Field from "../../components/ui/Field/Field"
+import Button from "../../shared/components/Button/Button"
+import Field from "../../shared/components/Field/Field"
 import { TasksContext } from "../../entities/todo"
 
 const AddTaskForm = (props) => {

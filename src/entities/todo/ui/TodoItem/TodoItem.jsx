@@ -1,5 +1,5 @@
 import { memo } from "react"
-import RouterLink from "../../../../router/RouterLink"
+import RouterLink from "../../../../shared/components/RouterLink/RouterLink"
 import styles from "./TodoItem.module.scss"
 
 const TodoItem = (props) => {
