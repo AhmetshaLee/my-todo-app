@@ -39,7 +39,8 @@
     background-color: var(--color-dark-2);
     border-color: var(--color-dark-2);
 
-    & + .label {
+    & ~ .label,
+    & ~ .link {
       color: var(--color-gray-4);
       text-decoration: line-through;
     }
@@ -66,6 +67,15 @@
 .label {
   width: 100%;
   pointer-events: none;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .deleteButton {

@@ -18,7 +18,11 @@ const TodoItem = (props) => {
       <label className={`${styles.label} visually-hidden`} htmlFor={id}>
         {title}
       </label>
-      <RouterLink to={`/tasks/${id}`} aria-label='Task detail page'>
+      <RouterLink
+        className={`${styles.link}`}
+        to={`/tasks/${id}`}
+        aria-label='Task detail page'
+      >
         {title}
       </RouterLink>
       <button
