@@ -3,7 +3,7 @@ import tasksAPI from "@/shared/api/tasksAPI"
 
 const TaskPage = (props) => {
   const { params } = props
-  const taskId = params.id
+  const taskId = params?.id
 
   const [task, setTask] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
