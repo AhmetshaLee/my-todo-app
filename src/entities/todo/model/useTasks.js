@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useCallback, useMemo, useReducer } from "react"
 import tasksAPI from "@/shared/api/tasksAPI"
+import { tasksReducer } from "./tasksReducer"
 
 const useTasks = () => {
-  const [tasks, setTasks] = useState([])
+  const [tasks, dispatch] = useReducer(tasksReducer, [])
   const [searchQuery, setSearchQuery] = useState("")
 
   const visibleTasks = useMemo(() => {
@@ -22,28 +23,18 @@ const useTasks = () => {
 
     if (isConfirmed) {
       const taskIds = tasks.map((task) => task.id)
-      tasksAPI.deleteAll(taskIds).then(() => setTasks([]))
+      tasksAPI.deleteAll(taskIds).then(() => dispatch({ type: "DELETE_ALL" }))
     }
   }, [tasks])
 
   const deleteTask = useCallback((taskId) => {
-    tasksAPI.delete(taskId).then(() => {
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId))
-    })
+    tasksAPI.delete(taskId).then(() => dispatch({ type: "DELETE", id: taskId }))
   }, [])
 
   const toggleTaskComplete = useCallback((taskId, isDone) => {
-    tasksAPI.toggleComplete(taskId, isDone).then(() => {
-      setTasks((prevTasks) =>
-        prevTasks.map((task) => {
-          if (task.id === taskId) {
-            return { ...task, isDone: !task.isDone }
-          }
-
-          return task
-        }),
-      )
-    })
+    tasksAPI
+      .toggleComplete(taskId, isDone)
+      .then(() => dispatch({ type: "TOGGLE_COMPLETE", id: taskId, isDone }))
   }, [])
 
   const addTask = useCallback((title) => {
@@ -52,14 +43,17 @@ const useTasks = () => {
       isDone: false,
     }
 
-    tasksAPI.add(newTask).then((addedTask) => {
-      setTasks((prevTasks) => [...prevTasks, addedTask])
-      setSearchQuery("")
-    })
+    tasksAPI
+      .add(newTask)
+      .then((addedTask) => dispatch({ type: "ADD", task: addedTask }))
   }, [])
 
   useEffect(() => {
-    tasksAPI.getAll().then(setTasks)
+    tasksAPI
+      .getAll()
+      .then((responseTasks) =>
+        dispatch({ type: "SET_ALL", tasks: responseTasks }),
+      )
   }, [])
 
   return {
