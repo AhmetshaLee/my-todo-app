@@ -12,6 +12,7 @@ const TodoList = (props) => {
     toggleTaskComplete,
     firstIncompleteTaskId,
     firstIncompleteTaskRef,
+    searchQuery,
   } = useContext(TasksContext)
 
   if (!visibleTasks.length) {
@@ -34,6 +35,7 @@ const TodoList = (props) => {
           ref={
             task.id === firstIncompleteTaskId ? firstIncompleteTaskRef : null
           }
+          searchQuery={searchQuery}
         />
       ))}
     </ul>

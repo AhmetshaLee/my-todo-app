@@ -1,10 +1,13 @@
 import { memo } from "react"
 import RouterLink from "@/shared/ui/RouterLink"
 import styles from "./TodoItem.module.scss"
+import { highlightCaseInsensitive } from "@/shared/utils/highlight"
 
 const TodoItem = (props) => {
-  const { className = "", task, onDelete, onToggle, ref } = props
+  const { className = "", task, onDelete, onToggle, ref, searchQuery } = props
   const { id, title, isDone } = task
+
+  const highlightedTitle = highlightCaseInsensitive(title, searchQuery)
 
   return (
     <li className={`${styles.todoItem} ${className}`} ref={ref}>
@@ -23,7 +26,7 @@ const TodoItem = (props) => {
         to={`/tasks/${id}`}
         aria-label='Task detail page'
       >
-        {title}
+        <span dangerouslySetInnerHTML={{ __html: highlightedTitle }} />
       </RouterLink>
       <button
         className={styles.deleteButton}
